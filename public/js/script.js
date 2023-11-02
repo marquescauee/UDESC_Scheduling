@@ -50,6 +50,7 @@ $("#btn-start-matriz-curricular").click(function(e) {
     if($(".pop-up-success")) {
         $(".pop-up-success").hide()
     }
+
 });
 
 showPopUpError()

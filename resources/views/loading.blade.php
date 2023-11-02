@@ -19,6 +19,23 @@
         <p class="paragraph-generating">Gerando Matriz, isso pode demorar um pouco...</p>
         <img src=" {{ asset('img/loader.png') }} " alt="Loader" width="186" height="94">
     </div>
+
+    @php
+        if ($command) {
+            $result = shell_exec($command);
+        }
+    @endphp
+
+    @if (isset($result))
+        <script>
+            window.location.href = '/success'
+        </script>
+    @else
+        <script>
+            window.location.href = '/error'
+        </script>
+    @endif
+
 </body>
 
 </html>
