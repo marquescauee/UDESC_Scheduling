@@ -11,7 +11,7 @@
 <body>
     <header>
         <h1 id="header-title">
-            Gerador de Matriz Curricular - Ocorreu um Erro
+            Gerador de Matriz Curricular - Matriz Gerada!
         </h1>
     </header>
 
