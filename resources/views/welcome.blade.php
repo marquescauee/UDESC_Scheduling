@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <script src="{{asset('js/script.js')}}" defer></script>
     <title>UDESC Scheduling</title>
 </head>
 
@@ -37,7 +38,8 @@
                         <img src="{{ asset('img/upload_icon.png') }}" alt="ícone de upload" />
                         <p class="upload-btn-label">Upload Professores</p>
                     </label>
-                    <input id="file-input-upload-professores" type="file" name="upload_professores" />
+                    <input id="file-input-upload-professores" class="js-file-upload-professores" type="file"
+                        name="upload_professores" />
                 </div>
 
                 <div class="image-upload">
@@ -45,7 +47,7 @@
                         <img src="{{ asset('img/upload_icon.png') }}" alt="ícone de upload" />
                         <p class="upload-btn-label">Upload Disciplinas</p>
                     </label>
-                    <input id="file-input-upload-disciplinas" type="file" name="upload_disciplinas" />
+                    <input id="file-input-upload-disciplinas" class="js-file-upload-disciplinas"  type="file" name="upload_disciplinas" />
                 </div>
             </div>
 
@@ -69,21 +71,21 @@
         </form>
     </div>
 
-    @if (Session::has('message'))
-        <div class="pop-up-error">
-            {{ Session::get('message') }}
-        </div>
-    @endif
+    <div class="pop-up-error">
+        <p class="error-message"></p>
+    </div>
 
-
-    {{-- <div class="pop-up-success">
-        <p>Upload realizado com sucesso!</p>
-    </div> --}}
+    <div class="pop-up-success">
+        <p class="success-message">Upload realizado com sucesso!</p>
+    </div>
 
 
     <div id="logo-udesc">
         <img src="{{ asset('img/logo.png') }}" alt="Logo Udesc">
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 
 </html>

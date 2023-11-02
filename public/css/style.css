@@ -139,20 +139,29 @@ header {
     cursor: pointer;
 }
 
-.pop-up-error {
+.pop-up-error,
+.pop-up-success {
     height: 100px;
     position: absolute;
-    width: 480px;
+    width: 500px;
     text-align: center;
     right: 0%;
     background-color: #cc3300;
     color: black;
     font-weight: bold;
-    display: flex;
+    display: none;
     bottom: 10%;
-    justify-content: center;
-    align-items: center;
     border-radius: 25px 0 0 26px;
+}
+
+.pop-up-success {
+    background-color: #216142;
+    color: white;
+}
+
+.success-message,
+.error-message {
+    margin: 2.5rem 0;
 }
 
 .image-upload {
