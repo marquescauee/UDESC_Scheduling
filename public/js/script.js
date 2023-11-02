@@ -1,5 +1,9 @@
 
 $(".js-file-upload-professores").on("change", function(e) {
+    if($(".js-file-upload-professores").get(0).files.length === 0) {
+        return
+    }
+
     $(".pop-up-success").show('slow')
 
     if($(".pop-up-error")) {
@@ -12,6 +16,10 @@ $(".js-file-upload-professores").on("change", function(e) {
 });
 
 $(".js-file-upload-disciplinas").on("change", function(e) {
+    if($(".js-file-upload-disciplinas").get(0).files.length === 0) {
+        return
+    }
+
     $(".pop-up-success").show('slow')
 
     if($(".pop-up-error")) {
