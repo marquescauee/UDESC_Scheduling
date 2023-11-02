@@ -1,4 +1,5 @@
 import os
+import sys
 import pandas as pd
 import numpy as np
 
@@ -20,7 +21,7 @@ class ReadData:
         self.oitavaFase = []
 
     def read_professores(self):
-        df = pd.read_excel(os.getcwd()+ r'\python\planilhas\professores.xlsx', header=None, usecols=[0,1,3,5,6])
+        df = pd.read_excel(os.getcwd()+ "\\python\\planilhas\\" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
         df = df.replace(np.nan, None)
         # Pega os dados com um dicionario
         data = df.to_dict(orient='records')
@@ -56,7 +57,7 @@ class ReadData:
 
     def read_disciplinas(self):
 
-        df = pd.read_excel(os.getcwd() + r'\python\planilhas\disciplinas.xlsx', header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
+        df = pd.read_excel(os.getcwd()+ "\\python\\planilhas\\" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
         df = df.replace(np.nan, None)
 
         data = df.to_dict(orient='records')

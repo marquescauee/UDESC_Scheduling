@@ -25,7 +25,15 @@ class MainController extends Controller
 
     public function generate(Request $request)
     {
-        $command = 'python '. public_path().'\python\SimulatedAnnealing.py 2>&1';
+        if (!$request->input('upload_professores') || !$request->input('upload_disciplinas')) {
+            return Redirect::to('/')->with('message', 'Alguma planilha não foi adicionada. Por favor, adicione as duas planilhas novamente.');
+        }
+
+        $planilha_professores = $request->input('upload_professores');
+        $planilha_disciplinas = $request->input('upload_disciplinas');
+
+        $command = "python ". public_path()."\python\SimulatedAnnealing.py 2>&1 $planilha_professores $planilha_disciplinas";
+
         $output = shell_exec($command);
 
         dd($output);

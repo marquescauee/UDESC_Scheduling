@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <script src="{{asset('js/script.js')}}" defer></script>
+    <script src="{{ asset('js/script.js') }}" defer></script>
     <title>UDESC Scheduling</title>
 </head>
 
@@ -47,7 +47,8 @@
                         <img src="{{ asset('img/upload_icon.png') }}" alt="ícone de upload" />
                         <p class="upload-btn-label">Upload Disciplinas</p>
                     </label>
-                    <input id="file-input-upload-disciplinas" class="js-file-upload-disciplinas"  type="file" name="upload_disciplinas" />
+                    <input id="file-input-upload-disciplinas" class="js-file-upload-disciplinas" type="file"
+                        name="upload_disciplinas" />
                 </div>
             </div>
 
@@ -70,6 +71,12 @@
             </div>
         </form>
     </div>
+
+    @if (Session::has('message'))
+        <div class="pop-up-error" style="display: block;">
+            <p class="error-message">{{ Session::get('message') }}</p>
+        </div>
+    @endif
 
     <div class="pop-up-error">
         <p class="error-message"></p>
