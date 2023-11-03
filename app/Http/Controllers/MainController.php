@@ -34,14 +34,14 @@ class MainController extends Controller
 
         $planilha_disciplinas_extension = explode('.', $request['upload_disciplinas']->getClientOriginalName())[1];
 
-        $planilha_professores = $request['upload_professores']->getClientOriginalName();
-        $planilha_disciplinas = $request['upload_disciplinas']->getClientOriginalName();
+        $planilha_professores_name = $request['upload_professores']->getClientOriginalName();
+        $planilha_disciplinas_name = $request['upload_disciplinas']->getClientOriginalName();
 
         File::put(base_path().'/public/python/planilhas/Professores.'. $planilha_professores_extension, File::get($request->file('upload_professores')));
 
         File::put(base_path().'/public/python/planilhas/Disciplinas.'. $planilha_disciplinas_extension, File::get($request->file('upload_disciplinas')));
 
-        $command = "python ". public_path()."/python/SimulatedAnnealing.py 2>&1 $planilha_professores $planilha_disciplinas";
+        $command = "python ". public_path()."/python/SimulatedAnnealing.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
 
         dd(shell_exec($command));
 
