@@ -30,7 +30,7 @@
             </button>
         </div>
 
-        <form action="{{ url('main/generate') }}" method="POST">
+        <form action="{{ url('main/generate') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="div-botoes-upload-template">
                 <div class="image-upload">
