@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        ZanySoft\Zip\ZipServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -182,7 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'Zip' => ZanySoft\Zip\Facades\Zip::class,
     ])->toArray(),
 
 ];

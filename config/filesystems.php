@@ -52,6 +52,22 @@ return [
             'throw' => false,
         ],
 
+        'full_solution' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/full_solution'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'partial_solution' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/partial_solution'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

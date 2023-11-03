@@ -25,3 +25,4 @@ Route::get('main/download-professores', [\App\Http\Controllers\MainController::c
 Route::get('main/download-disciplinas', [\App\Http\Controllers\MainController::class, 'downloadDisciplinas']);
 
 Route::post('main/generate', [\App\Http\Controllers\MainController::class, 'generate']);
+Route::get('main/download-solution', [\App\Http\Controllers\MainController::class, 'downloadSolution']);

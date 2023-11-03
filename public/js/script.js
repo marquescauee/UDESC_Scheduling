@@ -61,4 +61,16 @@ $("#btn-start-matriz-curricular").click(function(e) {
 
 });
 
+$(".btn-download-final-answer").click(function(e) {
+    if($(".btn-download-final-answer").hasClass("disabled")) {
+        e.preventDefault()
+        $(".pop-up-error").show('slow')
+        $(".error-message").text('Ainda não foi gerada uma solução. Por favor, adicione as planilhas e inicie a execução.')
+    }
+
+    if($(".pop-up-success")) {
+        $(".pop-up-success").hide()
+    }
+})
+
 showPopUpError()
