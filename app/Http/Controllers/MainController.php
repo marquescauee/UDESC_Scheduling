@@ -34,6 +34,8 @@ class MainController extends Controller
 
         $command = "python ". public_path()."/python/SimulatedAnnealing.py 2>&1 $planilha_professores $planilha_disciplinas";
 
+        dd(shell_exec($command));
+
         return view('loading', compact('command'));
     }
 }

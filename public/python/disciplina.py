@@ -1,3 +1,6 @@
+from constraints import DeveSerNoiteCheiaHard
+
+
 class Disciplina:
     def __init__(self, id, professor, codigo_disciplina, nome_disciplina,
                  creditos_disciplina, aula_sabado, hard_constraints, soft_constraints):
@@ -11,7 +14,19 @@ class Disciplina:
         self.hard_constraints = hard_constraints
         self.soft_constraints = soft_constraints
         self.alocada = False
-    
+        self.deveSerNoiteCheia = None
+
+
+        for hard in hard_constraints:
+            if isinstance(hard, DeveSerNoiteCheiaHard):
+                if (hard.getDeveSerNoiteCheia() ==  'S'):
+                    self.deveSerNoiteCheia ='S'
+                elif (hard.getDeveSerNoiteCheia() ==  'N'):
+                    self.deveSerNoiteCheia = 'N'
+                else:
+                    self.deveSerNoiteCheia = None
+
+
     def add_hard_constraint(self, constraint):
         self.hard_constraints.append(constraint)
         

@@ -1,11 +1,11 @@
 from copy import deepcopy
 from random import shuffle
 
-import os
-import sys
-
 import pandas as pd
 import numpy as np
+
+import os
+import sys
 
 from constraints import ConstraintHard, ConstraintSoft, DiasNaoMinistradasHard, DiasNaoMinistradasSoft, \
     DeveSerNoiteCheiaHard, DeveSerNoiteCheiaSoft
@@ -61,7 +61,7 @@ class ReadData:
 
     def read_disciplinas(self):
 
-        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12])
+        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
         df = df.replace(np.nan, None)
 
         data = df.to_dict(orient='records')
@@ -291,6 +291,38 @@ def gerar(matriz, disciplinas):
                 i += 1  # Avance para a próxima linha
             if i == 5:  # Verifique se todas as linhas foram preenchidas
                 break
+
+    for index, dia in enumerate(matriz):
+        if dia[0] and dia[1] is not None:
+            if dia[0] == dia[1]:
+                if dia[0].deveSerNoiteCheia == 'N' or dia[1].deveSerNoiteCheia == 'N':
+                    conflitos += 1
+                    if dia[0].deveSerNoiteCheia == 'N' and dia[1].deveSerNoiteCheia == 'N':
+                        conflitos += 1
+
+            else:
+                if dia[0].deveSerNoiteCheia == 'S' or dia[1].deveSerNoiteCheia == 'S':
+                    conflitos += 1
+                    if dia[0].deveSerNoiteCheia == 'S' and dia[1].deveSerNoiteCheia == 'S':
+                        conflitos += 1
+
+            if dia[0] != dia[1]:
+                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or ((dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
+                    for isDiaCheio in matriz:
+                        if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
+                            conflitos -= 1
+                            break
+                        elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1]:
+                            conflitos -= 1
+                            break
+
+        elif dia[0] is None and dia[1] is not None:
+            if dia[1].deveSerNoiteCheia == 'S':
+                conflitos += 1
+        elif dia[0] is not None and dia[1] is None:
+            if dia[0].deveSerNoiteCheia == 'S':
+                conflitos += 1
+
 
     return conflitos
 

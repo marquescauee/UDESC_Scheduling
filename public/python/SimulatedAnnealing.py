@@ -7,7 +7,7 @@ from random import sample
 from readXls import ReadData, SingleSolution
 
 class SimulatedAnnealing:
-    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.999):
+    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.9996):
         self.clean_data = clean_data
         self.data = deepcopy(clean_data)
         #self.original = deepcopy(grade)
