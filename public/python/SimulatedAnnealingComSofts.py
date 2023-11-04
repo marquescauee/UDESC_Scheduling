@@ -25,8 +25,11 @@ class SimulatedAnnealing:
         counter = 0
 
         start_time = time.time()
-        while (self.best_state.softFitness() != 0 and self.best_state.fitnes() != 0 ) or temp > self.min_temp:
+        while temp > self.min_temp:
             counter += 1
+
+            if(self.best_state.softFitness() == 0 and self.best_state.fitness() == 0):
+                break
 
             if counter % 100 == 0:
                 print('Iteracao #%s - Conflitos: %s | Softs: %s' % (counter, self.best_state.fitness(), self.best_state.softFitness()))
