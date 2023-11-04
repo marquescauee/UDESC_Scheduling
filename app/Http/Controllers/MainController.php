@@ -30,14 +30,14 @@ class MainController extends Controller
     {
         if (Storage::disk('full_solution')->exists("Solucao_Completa_Matriz_Professores.xls")) {
             $zip = Zip::create('matrizes_completa.zip');
-            $zip->add(base_path().'/storage/app/public/full_solution', true);
+            $zip->add(base_path() . '/storage/app/public/full_solution', true);
 
             $zip->close();
 
             return Response::download(public_path('matrizes_completa.zip'));
         } else {
             $zip = Zip::create('matrizes_parcial.zip');
-            $zip->add(base_path().'/storage/app/public/partial_solution', true);
+            $zip->add(base_path() . '/storage/app/public/partial_solution', true);
 
             $zip->close();
 
@@ -62,7 +62,11 @@ class MainController extends Controller
 
         File::put(base_path() . '/public/python/planilhas/Disciplinas.' . $planilha_disciplinas_extension, File::get($request->file('upload_disciplinas')));
 
-        $command = "python " . public_path() . "/python/SimulatedAnnealing.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
+        $command = "python " . public_path() . "/python/SimulatedAnnealingComSofts.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
+
+        ini_set('max_execution_time', 3600);
+        ini_set('max_input_time', -1);
+        set_time_limit(3600);
 
         dd(shell_exec($command));
 
