@@ -17,13 +17,15 @@
 
     <div class="loading-div">
         <p class="paragraph-generating">Gerando Matriz, isso pode demorar um pouco...</p>
-        <img src=" {{ asset('img/loader.png') }} " alt="Loader" width="186" height="94">
+        <div class="loader">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </div>
 
     @php
-        if ($command) {
-            $result = shell_exec($command);
-        }
+        $result = shell_exec($command);
     @endphp
 
     @if (isset($result))

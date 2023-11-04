@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <script src="{{ asset('js/script.js') }}" defer></script>
     <title>UDESC Scheduling</title>
@@ -30,7 +31,8 @@
             </button>
         </div>
 
-        <form action="{{ url('main/generate') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('main/generate') }}" method="POST" enctype="multipart/form-data"
+            id="form-start-matriz-curricular">
             @csrf
             <div id="div-botoes-upload-template">
                 <div class="image-upload">
@@ -48,7 +50,7 @@
                         <p class="upload-btn-label">Upload Disciplinas</p>
                     </label>
                     <input id="file-input-upload-disciplinas" class="js-file-upload-disciplinas" type="file"
-                        name="upload_disciplinas" />
+                        name="upload_disciplinas"/>
                 </div>
             </div>
 
@@ -59,12 +61,15 @@
                     Gerar Matriz Curricular
                     <img src="{{ asset('img/plus_circle_icon.png') }}" alt="Ícone de adição">
                 </button>
-                @if (!Storage::disk('full_solution')->exists('Solucao_Completa_Matriz_Professores.xls') && !Storage::disk('partial_solution')->exists('Solucao_Parcial_Matriz_Professores.xls'))
+                @if (
+                    !Storage::disk('full_solution')->exists('Solucao_Completa_Matriz_Professores.xls') &&
+                        !Storage::disk('partial_solution')->exists('Solucao_Parcial_Matriz_Professores.xls'))
                     <button class="btn-download-final-answer disabled" style="opacity: 0.5; cursor:default">
                         <img src="{{ asset('img/download_answer.png') }}" alt="Donwload Answer">
                     </button>
                 @else
-                    <button class="btn-download-final-answer" onclick="window.location='{{ url('main/download-solution') }}'" style="cursor: pointer">
+                    <button class="btn-download-final-answer"
+                        onclick="window.location='{{ url('main/download-solution') }}'" style="cursor: pointer">
                         <img src="{{ asset('img/download_answer.png') }}" alt="Donwload Answer">
                     </button>
                 @endif

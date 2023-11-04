@@ -197,7 +197,7 @@ header {
 .loading-div {
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 60vh;
     gap: 5rem;
     display: flex;
     flex-direction: column;
@@ -287,4 +287,49 @@ header {
     font-family: 'Roboto', sans-serif;
     border-radius: 5px;
     border: none;
+}
+
+.loader {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+
+.loader .dot {
+    animation-fill-mode: forwards;
+    animation-name: busy;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in;
+    height: 48px;
+    width: 48px;
+    background: radial-gradient(
+        circle at 65% 15%,
+        hsl(146, 85%, 90%) 1px,
+        hsl(146, 85%, 61%) 3%,
+        hsl(151, 49%, 25%) 60%,
+        hsl(146, 85%, 21%) 100%
+    );
+    border-radius: 50%;
+}
+
+.loader .dot:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.loader .dot:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+@keyframes busy {
+	0% {
+		transform: translateY(0) scale(1);
+		filter: drop-shadow(0 32px 12px rgba(0, 0, 0, 0.05));
+	}
+	100% {
+		transform: translateY(100%) scale(0.75);
+		filter: drop-shadow(0 2px rgba(0, 0, 0, 0.25));
+	}
 }

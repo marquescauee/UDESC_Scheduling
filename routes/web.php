@@ -8,10 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/loading', function () {
-//     return view('loading');
-// });
-
 Route::get('/error', function () {
     return view('/error');
 })->name('error');
@@ -25,4 +21,5 @@ Route::get('main/download-professores', [\App\Http\Controllers\MainController::c
 Route::get('main/download-disciplinas', [\App\Http\Controllers\MainController::class, 'downloadDisciplinas']);
 
 Route::post('main/generate', [\App\Http\Controllers\MainController::class, 'generate']);
+
 Route::get('main/download-solution', [\App\Http\Controllers\MainController::class, 'downloadSolution']);

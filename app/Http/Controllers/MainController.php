@@ -7,11 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use robertogallea\LaravelPython\Services\LaravelPython;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Zip;
 
 class MainController extends Controller
@@ -68,8 +64,6 @@ class MainController extends Controller
         ini_set('max_input_time', -1);
         set_time_limit(3600);
 
-        dd(shell_exec($command));
-
-        return view('loading', compact('command'));
+        return shell_exec($command);
     }
 }
