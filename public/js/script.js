@@ -65,6 +65,7 @@ function handleSubmit() {
     let upload_disciplinas;
 
     $(document).ready(function(){
+
         $('#file-input-upload-professores').change(function(e){
             upload_professores = $('#file-input-upload-professores')[0].files[0];
         });
@@ -90,7 +91,7 @@ function handleSubmit() {
                 $.ajax({
                     data: formData,
                     type: "POST",
-                    url: "http://localhost:8000/main/generate",
+                    url: "http://127.0.0.1:8000/main/generate",
                     cache: false,
                     contentType: false,
                     processData: false,
