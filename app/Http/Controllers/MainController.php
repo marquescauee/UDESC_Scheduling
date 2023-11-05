@@ -51,7 +51,7 @@ class MainController extends Controller
 
         File::put(base_path() . '/public/python/planilhas/Disciplinas.' . $planilha_disciplinas_extension, File::get($request->file('upload_disciplinas')));
 
-        $command = "python " . public_path() . "/python/SimulatedAnnealingComSofts.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
+        $command = "python " . public_path() . "/python/SimulatedAnnealing.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
 
         ini_set('max_execution_time', 3600);
         ini_set('max_input_time', -1);

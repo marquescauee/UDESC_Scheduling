@@ -62,8 +62,7 @@
                     <img src="{{ asset('img/plus_circle_icon.png') }}" alt="Ícone de adição">
                 </button>
                 @if (
-                    !Storage::disk('full_solution')->exists('Solucao_Completa_Matriz_Professores.xls') &&
-                        !Storage::disk('partial_solution')->exists('Solucao_Parcial_Matriz_Professores.xls'))
+                    !Storage::disk('solution')->exists('solucao.xlsx'))
                     <button class="btn-download-final-answer disabled" style="opacity: 0.5; cursor:default">
                         <img src="{{ asset('img/download_answer.png') }}" alt="Donwload Answer">
                     </button>

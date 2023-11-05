@@ -76,12 +76,12 @@ function handleSubmit() {
 
         $("#form-start-matriz-curricular").on('submit', function() {
             $(".main-div").empty()
-                $(".main-div").append('<div class="loading-div"><p class="paragraph-generating">Gerando Matriz. Isso pode demorar um pouco...<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>')
+                $(".main-div").append('<div class="loading-div"><p class="paragraph-generating">Gerando Matriz. Isso pode demorar um pouco...</p><span class="loader"></span></div>')
 
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Access-Control-Allow-Origin': 'http://127.0.0.1:8001'
+                        'Access-Control-Allow-Origin': 'http://127.0.0.1:8000'
                     }
                 });
 
