@@ -27,8 +27,8 @@ class ReadData:
         self.oitavaFase = []
 
     def read_professores(self):
-        #df = pd.read_excel("planilhas/professores.xls" , header=None, usecols=[0,1,3,5,6])
-        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
+        df = pd.read_excel("planilhas/professores.xls", header=None, usecols=[0, 1, 3, 5, 6])
+        # df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
         df = df.replace(np.nan, None)
         # Pega os dados com um dicionario
         data = df.to_dict(orient='records')
@@ -62,8 +62,9 @@ class ReadData:
 
     def read_disciplinas(self):
 
-        #df = pd.read_excel("planilhas/disciplinas.xlsx", header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
-        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
+        df = pd.read_excel("planilhas/disciplinas.xls", header=None, usecols=[0, 1, 2, 3, 4, 6, 7, 9, 10, 11,
+                                                                              12])  ##descobrir uma mehlor forma de nao pegar as coisas vazias
+        # df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
         df = df.replace(np.nan, None)
 
         data = df.to_dict(orient='records')
@@ -188,7 +189,7 @@ def gerarSolucaoParical(matriz, disciplinas):
 
 # ESSA FUNCAO GERA A GRADE POR COMPLETO, ADICIONANDO AS DISCIPLINAS QUE VIOLAM RESTRICOES
 def gerar(matriz, disciplinas):
-    #np.random.shuffle(disciplinas)
+    # np.random.shuffle(disciplinas)
 
     podeSabado = []
 
@@ -247,7 +248,6 @@ def gerar(matriz, disciplinas):
             if i == 5:  # Verifique se todas as linhas foram preenchidas
                 break
 
-
     for index, disciplina in enumerate(podeSabado):
         i = 0
         j = 0
@@ -272,7 +272,6 @@ def gerar(matriz, disciplinas):
                         matriz[ij[0]][1] = None
                     disciplinasNaoAlocadasSabado.append(disciplina)
                 break
-
 
     for index, disciplina in enumerate(disciplinasNaoAlocadasSabado):
         i = 0
@@ -309,7 +308,8 @@ def gerar(matriz, disciplinas):
                         conflitos += 1
 
             if dia[0] != dia[1]:
-                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or ((dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
+                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or (
+                    (dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
                             conflitos -= 1
@@ -325,9 +325,7 @@ def gerar(matriz, disciplinas):
             if dia[0].deveSerNoiteCheia == 'S':
                 conflitos += 1
 
-
     return conflitos
-
 
 
 class SingleSolution:
@@ -387,7 +385,7 @@ class SingleSolution:
                 self.totalConflitos += gerar(matriz8Fase, self.data.oitavaFase)
 
         self.grade = [matriz1Fase, matriz2Fase, matriz3Fase, matriz4Fase,
-                      matriz5Fase, matriz6Fase, matriz7Fase,matriz8Fase]  # grade de todas as fasese em ordem
+                      matriz5Fase, matriz6Fase, matriz7Fase, matriz8Fase]  # grade de todas as fasese em ordem
 
     def fitness(self):
         return self.totalConflitos
@@ -397,90 +395,90 @@ class SingleSolution:
 
 
 class SingleSolutionSofts:
-        def __init__(self, original_data):
-            self.grade = None
-            self.totalConflitos = None
-            self.totalConflitosSoft = None
-            self.data = deepcopy(original_data)
+    def __init__(self, original_data):
+        self.grade = None
+        self.totalConflitos = None
+        self.totalConflitosSoft = None
+        self.data = deepcopy(original_data)
 
-        def generate_solution(self):
-            self.totalConflitos = 0
-            self.totalConflitosSoft = 0
+    def generate_solution(self):
+        self.totalConflitos = 0
+        self.totalConflitosSoft = 0
 
-            fases = [1, 2, 3, 4, 5, 6, 7, 8]
+        fases = [1, 2, 3, 4, 5, 6, 7, 8]
 
-            shuffle(fases)
+        shuffle(fases)
 
-            matriz1Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz1Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz2Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz2Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz3Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz3Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz4Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz4Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz5Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz5Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz6Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz6Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz7Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz7Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            matriz8Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        matriz8Fase = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
 
-            # Loop para gerar as matrizes de acordo com a ordem aleatória.
-            for fase in fases:
-                if fase == 1:
-                    shuffle(self.data.primeiraFase)
-                    conflito, softConflito = gerarComSoft(matriz1Fase, self.data.primeiraFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 2:
-                    shuffle(self.data.segundaFase)
-                    conflito, softConflito = gerarComSoft(matriz2Fase, self.data.segundaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 3:
-                    shuffle(self.data.terceiraFase)
-                    conflito, softConflito =gerarComSoft(matriz3Fase, self.data.terceiraFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 4:
-                    shuffle(self.data.quartaFase)
-                    conflito, softConflito = gerarComSoft(matriz4Fase, self.data.quartaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 5:
-                    shuffle(self.data.quintaFase)
-                    conflito, softConflito = gerarComSoft(matriz5Fase, self.data.quintaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 6:
-                    shuffle(self.data.sextaFase)
-                    conflito, softConflito = gerarComSoft(matriz6Fase, self.data.sextaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 7:
-                    shuffle(self.data.setimaFase)
-                    conflito, softConflito = gerarComSoft(matriz7Fase, self.data.setimaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
-                elif fase == 8:
-                    shuffle(self.data.oitavaFase)
-                    conflito, softConflito = gerarComSoft(matriz8Fase, self.data.oitavaFase)
-                    self.totalConflitos += conflito
-                    self.totalConflitosSoft += softConflito
+        # Loop para gerar as matrizes de acordo com a ordem aleatória.
+        for fase in fases:
+            if fase == 1:
+                shuffle(self.data.primeiraFase)
+                conflito, softConflito = gerarComSoft(matriz1Fase, self.data.primeiraFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 2:
+                shuffle(self.data.segundaFase)
+                conflito, softConflito = gerarComSoft(matriz2Fase, self.data.segundaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 3:
+                shuffle(self.data.terceiraFase)
+                conflito, softConflito = gerarComSoft(matriz3Fase, self.data.terceiraFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 4:
+                shuffle(self.data.quartaFase)
+                conflito, softConflito = gerarComSoft(matriz4Fase, self.data.quartaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 5:
+                shuffle(self.data.quintaFase)
+                conflito, softConflito = gerarComSoft(matriz5Fase, self.data.quintaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 6:
+                shuffle(self.data.sextaFase)
+                conflito, softConflito = gerarComSoft(matriz6Fase, self.data.sextaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 7:
+                shuffle(self.data.setimaFase)
+                conflito, softConflito = gerarComSoft(matriz7Fase, self.data.setimaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
+            elif fase == 8:
+                shuffle(self.data.oitavaFase)
+                conflito, softConflito = gerarComSoft(matriz8Fase, self.data.oitavaFase)
+                self.totalConflitos += conflito
+                self.totalConflitosSoft += softConflito
 
-            self.grade = [matriz1Fase, matriz2Fase, matriz3Fase, matriz4Fase,
-                        matriz5Fase, matriz6Fase, matriz7Fase,matriz8Fase]  # grade de todas as fasese em ordem
+        self.grade = [matriz1Fase, matriz2Fase, matriz3Fase, matriz4Fase,
+                      matriz5Fase, matriz6Fase, matriz7Fase, matriz8Fase]  # grade de todas as fasese em ordem
 
-        def fitness(self):
-            return self.totalConflitos
-        
-        def softFitness(self):
-            return self.totalConflitosSoft;
+    def fitness(self):
+        return self.totalConflitos
 
-        def mutate(self):
-            self.generate_solution()
+    def softFitness(self):
+        return self.totalConflitosSoft;
+
+    def mutate(self):
+        self.generate_solution()
 
 
 def gerarComSoft(matriz, disciplinas):
@@ -508,7 +506,7 @@ def gerarComSoft(matriz, disciplinas):
                 matriz[i][j] = disciplina
                 alocados.append([i, j])
                 alocadas += 1
-                conflitos_soft += disciplina.professor.alocarHorario(i,j,disciplina)
+                conflitos_soft += disciplina.professor.alocarHorario(i, j, disciplina)
                 if qntdAulas == alocadas:
                     disciplina.alocada = True
             j += 1
@@ -544,7 +542,6 @@ def gerarComSoft(matriz, disciplinas):
             if i == 5:  # Verifique se todas as linhas foram preenchidas
                 break
 
-
     for index, disciplina in enumerate(podeSabado):
         i = 0
         j = 0
@@ -556,7 +553,7 @@ def gerarComSoft(matriz, disciplinas):
                 matriz[i][j] = disciplina
                 alocados.append([i, j])
                 alocadas += 1
-                conflitos_soft += disciplina.professor.alocarHorario(i,j,disciplina)
+                conflitos_soft += disciplina.professor.alocarHorario(i, j, disciplina)
                 if qntdAulas == alocadas:
                     disciplina.alocada = True
             j += 1
@@ -569,7 +566,6 @@ def gerarComSoft(matriz, disciplinas):
                         matriz[ij[0]][1] = None
                     disciplinasNaoAlocadasSabado.append(disciplina)
                 break
-
 
     # ADICIONA AS DISCIPLINAS DE SABADO QUE CAUSAM CONFLITO E INCREMENTA O CONTADOR DE CONFLITOS
     for index, disciplina in enumerate(disciplinasNaoAlocadasSabado):
@@ -592,7 +588,7 @@ def gerarComSoft(matriz, disciplinas):
             if i == 5:  # Verifique se todas as linhas foram preenchidas
                 break
 
-    #CONTABILIZA AS VIOLACOES DE DEVE SER NOITE CHEIA
+    # CONTABILIZA AS VIOLACOES DE DEVE SER NOITE CHEIA
     for index, dia in enumerate(matriz):
         if dia[0] and dia[1] is not None:
             if dia[0] == dia[1]:
@@ -608,7 +604,8 @@ def gerarComSoft(matriz, disciplinas):
                         conflitos += 1
 
             if dia[0] != dia[1]:
-                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or ((dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
+                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or (
+                    (dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
                             conflitos -= 1
@@ -624,37 +621,44 @@ def gerarComSoft(matriz, disciplinas):
             if dia[0].deveSerNoiteCheia == 'S':
                 conflitos += 1
 
-    ## SOFT NOITE CHEIA
-    # for index, dia in enumerate(matriz):
-    #     if dia[0] and dia[1] is not None:
-    #         if dia[0] == dia[1]:
-    #             if dia[0].deveSerNoiteCheia == 'N' or dia[1].deveSerNoiteCheia == 'N':
-    #                 conflitos += 1
-    #                 if dia[0].deveSerNoiteCheia == 'N' and dia[1].deveSerNoiteCheia == 'N':
-    #                     conflitos += 1
+    # SOFT NOITE CHEIA
+    for index, dia in enumerate(matriz):
+        if dia[0] and dia[1] is not None:
+            if dia[0] == dia[1]:
+                if dia[0].preferivelSerNoiteCheia == 'N' or dia[1].preferivelSerNoiteCheia == 'N':
+                    if dia[0].pesoNoiteCheia is not None:
+                        conflitos_soft += 1 * dia[0].pesoNoiteCheia
 
-    #         else:
-    #             if dia[0].deveSerNoiteCheia == 'S' or dia[1].deveSerNoiteCheia == 'S':
-    #                 conflitos += 1
-    #                 if dia[0].deveSerNoiteCheia == 'S' and dia[1].deveSerNoiteCheia == 'S':
-    #                     conflitos += 1
+                    if dia[1].pesoNoiteCheia is not  None:
+                        conflitos_soft += 1 * dia[1].pesoNoiteCheia
+                    # if dia[0].preferivelSerNoiteCheia == 'N' and dia[1].preferivelSerNoiteCheia == 'N':
+                    #     conflitos_soft += 1
 
-    #         if dia[0] != dia[1]:
-    #             if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or ((dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].deveSerNoiteCheia == 'S'):
-    #                 for isDiaCheio in matriz:
-    #                     if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
-    #                         conflitos -= 1
-    #                         break
-    #                     elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1]:
-    #                         conflitos -= 1
-    #                         break
+            else:
+                if dia[0].preferivelSerNoiteCheia == 'S' or dia[1].preferivelSerNoiteCheia == 'S':
+                    if dia[0].pesoNoiteCheia is not None:
+                        conflitos_soft += 1 * dia[0].pesoNoiteCheia
+                    if dia[1].pesoNoiteCheia is not None:
+                        conflitos_soft += 1 * dia[1].pesoNoiteCheia
+                    # if dia[0].preferivelSerNoiteCheia == 'S' and dia[1].preferivelSerNoiteCheia == 'S':
+                    #     conflitos_soft += 1
 
-    #     elif dia[0] is None and dia[1] is not None:
-    #         if dia[1].deveSerNoiteCheia == 'S':
-    #             conflitos += 1
-    #     elif dia[0] is not None and dia[1] is None:
-    #         if dia[0].deveSerNoiteCheia == 'S':
-    #             conflitos += 1
+            if dia[0] != dia[1]:
+                if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].preferivelSerNoiteCheia == 'S') or (
+                    (dia[1].creditos_disciplina / 2) % 2 == 1 and dia[1].preferivelSerNoiteCheia == 'S'):
+                    for isDiaCheio in matriz:
+                        if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0] and dia[0].preferivelSerNoiteCheia == 'S':
+                            conflitos_soft -= 1 * dia[0].pesoNoiteCheia
+                            break
+                        elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1] and dia[1].preferivelSerNoiteCheia == 'S':
+                            conflitos_soft -= 1 * dia[1].pesoNoiteCheia
+                            break
 
+        elif dia[0] is None and dia[1] is not None:
+            if dia[1].preferivelSerNoiteCheia == 'S':
+                conflitos_soft += 1 * dia[1].pesoNoiteCheia
+        elif dia[0] is not None and dia[1] is None:
+            if dia[0].preferivelSerNoiteCheia == 'S':
+                conflitos_soft += 1 * dia[0].pesoNoiteCheia
 
     return conflitos, conflitos_soft
