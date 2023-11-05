@@ -64,42 +64,47 @@ function handleSubmit() {
     let upload_professores;
     let upload_disciplinas;
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
-        $('#file-input-upload-professores').change(function(e){
+        $('#file-input-upload-professores').change(function (e) {
             upload_professores = $('#file-input-upload-professores')[0].files[0];
         });
 
-        $('#file-input-upload-disciplinas').change(function(e){
+        $('#file-input-upload-disciplinas').change(function (e) {
             upload_disciplinas = $('#file-input-upload-disciplinas')[0].files[0];
         });
 
-        $("#form-start-matriz-curricular").on('submit', function() {
+        $("#form-start-matriz-curricular").on('submit', function () {
             $(".main-div").empty()
-                $(".main-div").append('<div class="loading-div"><p class="paragraph-generating">Gerando Matriz. Isso pode demorar um pouco...</p><span class="loader"></span></div>')
+            $(".main-div").append('<div class="loading-div"><p class="paragraph-generating">Gerando Matriz. Isso pode demorar um pouco...</p><span class="loader"></span></div>')
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Access-Control-Allow-Origin': 'http://127.0.0.1:8000'
-                    }
-                });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Access-Control-Allow-Origin': 'http://127.0.0.1:8000'
+                }
+            });
 
-                const formData = new FormData();
-                formData.append('upload_professores', upload_professores)
-                formData.append('upload_disciplinas', upload_disciplinas)
+            const formData = new FormData();
+            formData.append('upload_professores', upload_professores)
+            formData.append('upload_disciplinas', upload_disciplinas)
 
-                $.ajax({
-                    data: formData,
-                    type: "POST",
-                    url: "http://127.0.0.1:8000/main/generate",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        console.log(result)
-                    }
-                });
+            $.ajax({
+                data: formData,
+                type: "POST",
+                url: "http://127.0.0.1:8000/main/generate",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log('result')
+                    if (result[0] === '1')
+                        window.location.href = '/success'
+                    else
+                        window.location.href = '/error'
+                }
+
+            });
         })
     });
 }

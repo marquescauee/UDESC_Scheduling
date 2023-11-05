@@ -22,7 +22,7 @@
         <div class="footer-success">
             <p>Caso o download não tenha iniciado automaticamente, clique no botão ao lado.</p>
             <div class="div-btn-partial-solution">
-                <button id="btn-final-solution">
+                <button id="btn-final-solution" onclick="window.location='{{url('main/download-solution')}}'">
                     <img src="{{ asset('img/download_icon.png') }}" alt="ícone de download" width="15" height="15">
                     Baixar Grade
                 </button>

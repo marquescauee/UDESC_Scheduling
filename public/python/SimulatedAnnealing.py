@@ -33,8 +33,8 @@ class SimulatedAnnealing:
             if(self.best_state.softFitness() == 0 and self.best_state.fitness() == 0):
                 break
 
-            if counter % 100 == 0:
-                print('Iteracao #%s - Conflitos: %s | Softs: %s' % (counter, self.best_state.fitness(), self.best_state.softFitness()))
+            # if counter % 100 == 0:
+            #     print('Iteracao #%s - Conflitos: %s | Softs: %s' % (counter, self.best_state.fitness(), self.best_state.softFitness()))
 
             #new_state = self.actual_state
             new_data = deepcopy(clean_data)
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     clean_data = deepcopy(data)
     algorithm = SimulatedAnnealing(clean_data, 1, 100)
     solution = algorithm.run()
-    
+
     if solution.fitness() == 0:
         print(1)
     else:
@@ -95,22 +95,22 @@ if __name__ == '__main__':
             if dia[1] is None:
                 dia[1] = ' '
             else:
-                dia[1] = dia[1].nome_disciplina    
-            
+                dia[1] = dia[1].nome_disciplina
+
     dfs =[]
     pd.set_option('max_colwidth', None)
 
     for fase in solution.grade:
         df = pd.DataFrame({
              'Inicio - Final': ['18:50 - 19:40', '19:40 - 20:30', '20:40 - 21:30', '21:30 - 22:20'],
-             'Segunda-Feira:': [fase[0][0], fase[0][0], fase[0][1], fase[0][1]], 
-             'Terça-Feira:': [fase[1][0], fase[1][0], fase[1][1], fase[1][1]], 
-             'Quarta-Feira:': [fase[2][0], fase[2][0], fase[2][1], fase[2][1]], 
-             'Quinta-Feira:': [fase[3][0], fase[3][0], fase[3][1], fase[3][1]], 
-             'Sexta-Feira:': [fase[4][0], fase[4][0], fase[4][1], fase[4][1]], 
-             'Sábado:': [fase[5][0], fase[5][0], fase[5][1], fase[5][1]], 
+             'Segunda-Feira:': [fase[0][0], fase[0][0], fase[0][1], fase[0][1]],
+             'Terça-Feira:': [fase[1][0], fase[1][0], fase[1][1], fase[1][1]],
+             'Quarta-Feira:': [fase[2][0], fase[2][0], fase[2][1], fase[2][1]],
+             'Quinta-Feira:': [fase[3][0], fase[3][0], fase[3][1], fase[3][1]],
+             'Sexta-Feira:': [fase[4][0], fase[4][0], fase[4][1], fase[4][1]],
+             'Sábado:': [fase[5][0], fase[5][0], fase[5][1], fase[5][1]],
         })
-        
+
         dfs.append(df)
 
 root_dir = os.path.dirname(
@@ -132,7 +132,7 @@ for index, df in enumerate(dfs):
         col_idx = df.columns.get_loc(column)
         writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
-writer.close()    
+writer.close()
 
 # df = pd.read_excel(root_dir + '/storage/app/public/solution/output.xlsx')
 # df.to_excel(root_dir + '/storage/app/public/solution/output.xls')
