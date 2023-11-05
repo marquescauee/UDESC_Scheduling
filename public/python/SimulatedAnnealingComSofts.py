@@ -146,7 +146,7 @@ for index, df in enumerate(dfs):
         col_idx = df.columns.get_loc(column)
         writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
-writer.save()    
+writer.close()    
 
 # df = pd.read_excel(root_dir + '/storage/app/public/solution/output.xlsx')
 # df.to_excel(root_dir + '/storage/app/public/solution/output.xls')
