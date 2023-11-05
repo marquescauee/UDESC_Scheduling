@@ -52,17 +52,9 @@ return [
             'throw' => false,
         ],
 
-        'full_solution' => [
+        'solution' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/full_solution'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        'partial_solution' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/partial_solution'),
+            'root' => storage_path('app/public/solution'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,

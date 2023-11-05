@@ -80,7 +80,8 @@ function handleSubmit() {
 
                 $.ajaxSetup({
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Access-Control-Allow-Origin': 'http://127.0.0.1:8001'
                     }
                 });
 

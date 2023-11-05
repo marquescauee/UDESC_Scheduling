@@ -24,21 +24,14 @@ class MainController extends Controller
 
     public function downloadSolution()
     {
-        if (Storage::disk('full_solution')->exists("Solucao_Completa_Matriz_Professores.xls")) {
-            $zip = Zip::create('matrizes_completa.zip');
-            $zip->add(base_path() . '/storage/app/public/full_solution', true);
 
-            $zip->close();
+        $zip = Zip::create('solucao.zip');
+        $zip->add(base_path() . '/storage/app/public/solution', true);
 
-            return Response::download(public_path('matrizes_completa.zip'));
-        } else {
-            $zip = Zip::create('matrizes_parcial.zip');
-            $zip->add(base_path() . '/storage/app/public/partial_solution', true);
+        $zip->close();
 
-            $zip->close();
+        return Response::download(public_path('solucao.zip'));
 
-            return Response::download(public_path('matrizes_parcial.zip'));
-        }
     }
 
     public function generate(Request $request)
