@@ -206,6 +206,8 @@ header {
 .paragraph-generating {
     font-size: 24px;
     font-weight: bold;
+    text-align: center;
+    line-height: 32px;
 }
 
 .title-error {

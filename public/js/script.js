@@ -45,14 +45,17 @@ $("#btn-start-matriz-curricular").click(function (e) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você ainda não adicionou as planilhas. Por favor, adicione-as.')
+        showPopUpError()
     } else if ($(".js-file-upload-professores").get(0).files.length === 0) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você não adicionou a planilha de professores. Por favor, adicione-a.')
+        showPopUpError()
     } else if ($(".js-file-upload-disciplinas").get(0).files.length === 0) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você não adicionou a planilha de disciplinas. Por favor, adicione-a.')
+        showPopUpError()
     }
 
     if ($(".pop-up-success")) {
@@ -97,8 +100,16 @@ function handleSubmit() {
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    console.log('result')
-                    if (result[0] === '1')
+                    if (result.trim() === 'ERRO DE PLANILHA') {
+                        $(".paragraph-generating").css("color", "#cc3300")
+                        $(".paragraph-generating").text('Há um erro de informações nas planilhas. Por favor, verifique-as e tente novamente. Você será redirecionado para a página principal em 5 segundos.')
+                        $(".loader").css("display", "none")
+
+                        setTimeout(() => {
+                            window.location.href = '/'
+                        }, 5000);
+                    }
+                    else if (result.trim() === '1')
                         window.location.href = '/success'
                     else
                         window.location.href = '/error'

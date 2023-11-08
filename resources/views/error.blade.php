@@ -20,7 +20,7 @@
         <p class="description-error">Existem muitas Hards Constraints que não foram possíveis de serem cumpridas. Por favor, tente gerar novamente ou considere diminuir o numero de Hards Constraints.</p>
 
         <div class="footer-error">
-            <p>Caso queira analisar quais Hard Constraints não foram cumpridas, baixe o arquivo com a solução parcial.</p>
+            <p>Caso queira analisar quais Hard Constraints e/ou Soft Constraints não foram cumpridas, baixe o arquivo com a solução parcial.</p>
             <div class="div-btn-partial-solution">
                 <button id="btn-partial-solution" onclick="window.location='{{url('main/download-solution')}}'">
                     <img src="{{ asset('img/download_icon.png') }}" alt="ícone de download" width="15" height="15">

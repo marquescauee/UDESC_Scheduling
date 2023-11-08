@@ -20,7 +20,7 @@
         <p class="description-success">A grade foi gerada com sucesso e foi exportada para sua pasta Downloads!</p>
 
         <div class="footer-success">
-            <p>Caso o download não tenha iniciado automaticamente, clique no botão ao lado.</p>
+            <p>Verifique sua pasta de downloads. Caso o download não tenha sido realizado, clique no botão ao lado.</p>
             <div class="div-btn-partial-solution">
                 <button id="btn-final-solution" onclick="window.location='{{url('main/download-solution')}}'">
                     <img src="{{ asset('img/download_icon.png') }}" alt="ícone de download" width="15" height="15">

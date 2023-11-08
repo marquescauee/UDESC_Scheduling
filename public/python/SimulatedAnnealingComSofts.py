@@ -136,7 +136,7 @@ root_dir = os.path.dirname(
     )
 )
 
-writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao.xlsx')
+writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx')
 
 #writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
 workbook = writer.book
@@ -209,7 +209,7 @@ root_dir = os.path.dirname(
     )
 )
 
-writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/professores.xlsx')
+writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_professores.xlsx')
 
 
 for index, df in enumerate(dfs):
@@ -237,7 +237,12 @@ def get_download_path():
         return os.path.join(os.path.expanduser('~'), 'Downloads')
 
 import shutil
+import zipfile
 
-shutil.copy(root_dir + '/storage/app/public/solution/professores.xlsx', get_download_path() + '/professores.xlsx')
+solucao_professores = root_dir + '/storage/app/public/solution/solucao_professores.xlsx'
+solucao_disciplinas = root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx'
 
-shutil.copy(root_dir + '/storage/app/public/solution/solucao.xlsx', get_download_path() + '/solucao.xlsx')
+zip = zipfile.ZipFile(get_download_path() + "/stuff.zip", "w", zipfile.ZIP_DEFLATED)
+zip.write(solucao_professores, 'solucao_professores.xlsx')
+zip.write(solucao_disciplinas, 'solucao_disciplinas.xlsx')
+zip.close()
