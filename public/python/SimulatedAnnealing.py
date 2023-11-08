@@ -7,7 +7,7 @@ import os
 import zipfile
 
 class SimulatedAnnealing:
-    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.99):
+    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.9998):
         self.clean_data = clean_data
         self.data = deepcopy(clean_data)
         self.min_temp = min_temp

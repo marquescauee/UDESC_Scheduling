@@ -31,7 +31,7 @@ $(".js-file-upload-disciplinas").on("change", function (e) {
     }, 2000)
 });
 
-function showPopUpError() {
+function hidePopUpError() {
     if (document.querySelector(".pop-up-error")) {
         setTimeout(() => {
             $(".pop-up-error").fadeOut()
@@ -45,17 +45,17 @@ $("#btn-start-matriz-curricular").click(function (e) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você ainda não adicionou as planilhas. Por favor, adicione-as.')
-        showPopUpError()
+        hidePopUpError()
     } else if ($(".js-file-upload-professores").get(0).files.length === 0) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você não adicionou a planilha de professores. Por favor, adicione-a.')
-        showPopUpError()
+        hidePopUpError()
     } else if ($(".js-file-upload-disciplinas").get(0).files.length === 0) {
         e.preventDefault()
         $(".pop-up-error").show('slow')
         $(".error-message").text('Você não adicionou a planilha de disciplinas. Por favor, adicione-a.')
-        showPopUpError()
+        hidePopUpError()
     }
 
     if ($(".pop-up-success")) {
@@ -132,5 +132,5 @@ $(".btn-download-final-answer").click(function (e) {
     }
 })
 
-showPopUpError()
+hidePopUpError()
 handleSubmit()
