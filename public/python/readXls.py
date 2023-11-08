@@ -16,6 +16,7 @@ from disciplina import Disciplina
 class ReadData:
     def __init__(self):
         self.cacheProfessores = {}
+        self.professores = []
         self.disciplinas = []
         self.primeiraFase = []
         self.segundaFase = []
@@ -27,31 +28,37 @@ class ReadData:
         self.oitavaFase = []
 
     def read_professores(self):
-        #df = pd.read_excel("planilhas/professores.xls", header=None, usecols=[0, 1, 3, 5, 6])
-        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
-        df = df.replace(np.nan, None)
-        # Pega os dados com um dicionario
-        data = df.to_dict(orient='records')
+        try:
+            df = pd.read_excel("planilhas/professores.xls", header=None, usecols=[0, 1, 3, 5, 6])
+            #df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
 
-        # Pega o cabecalho na primeira linha
-        header = data[0]
-        data = data[1:]  # Ignorando a linha do cabecalho para os dados
+            df = df.replace(np.nan, None)
+            # Pega os dados com um dicionario
+            data = df.to_dict(orient='records')
 
-        # Remove as colunas sem info do cabecalho.
-        header = [coluna for coluna in header if pd.notna(coluna)]
+            # Pega o cabecalho na primeira linha
+            header = data[0]
+            data = data[1:]  # Ignorando a linha do cabecalho para os dados
 
-        professores = []
+            # Remove as colunas sem info do cabecalho.
+            header = [coluna for coluna in header if pd.notna(coluna)]
 
-        i = 1
-        for linha in data:
-            hard = DiasNaoMinistradasHard(False, linha[3])
-            soft = DiasNaoMinistradasSoft(False, linha[5], linha[6])
-            professor = Professor(i, linha[0], linha[1], hard, soft)
-            self.cacheProfessores[linha[0]] = professor
-            professores.append(professor)
-            i += 1
+            professores = []
 
-        return professores
+            i = 1
+            for linha in data:
+                hard = DiasNaoMinistradasHard(False, linha[3])
+                soft = DiasNaoMinistradasSoft(False, linha[5], linha[6])
+                professor = Professor(i, linha[0], linha[1], hard, soft)
+                self.cacheProfessores[linha[0]] = professor
+                self.professores.append(professor)
+                professores.append(professor)
+                i += 1
+
+            return professores
+        except:
+            print("ERRO DE PLANILHA")
+            sys.exit(1)
 
     # print(cacheProfessores)
 
@@ -61,51 +68,55 @@ class ReadData:
     #####################################################################
 
     def read_disciplinas(self):
+        try:
+            df = pd.read_excel("planilhas/disciplinas.xls", header=None, usecols=[0, 1, 2, 3, 4, 6, 7, 9, 10, 11, 12])  ##descobrir uma mehlor forma de nao pegar as coisas vazias
+       
+            #df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
+            df = df.replace(np.nan, None)
 
-        #df = pd.read_excel("planilhas/disciplinas.xls", header=None, usecols=[0, 1, 2, 3, 4, 6, 7, 9, 10, 11, 12])  ##descobrir uma mehlor forma de nao pegar as coisas vazias
-        df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
-        df = df.replace(np.nan, None)
+            data = df.to_dict(orient='records')
 
-        data = df.to_dict(orient='records')
+            header = data[0]
 
-        header = data[0]
+            data = data[1:]
 
-        data = data[1:]
+            header = [coluna for coluna in header if pd.notna(coluna)]
 
-        header = [coluna for coluna in header if pd.notna(coluna)]
+            i = 1
+            for linha in data:
+                hard_constraints = [DiasNaoMinistradasHard(False, linha[6]), DeveSerNoiteCheiaHard(False, linha[7])]
+                soft_constraints = [DiasNaoMinistradasSoft(False, linha[9], linha[10]),
+                                    DeveSerNoiteCheiaSoft(False, linha[11], linha[12])]
+                disciplina = Disciplina(i, self.cacheProfessores[linha[0]], linha[1], linha[2], linha[3], linha[4],
+                                        hard_constraints,
+                                        soft_constraints)  ## como la em cima ta setado as cols aqui tem q fazer tbm, bem meme
 
-        i = 1
-        for linha in data:
-            hard_constraints = [DiasNaoMinistradasHard(False, linha[6]), DeveSerNoiteCheiaHard(False, linha[7])]
-            soft_constraints = [DiasNaoMinistradasSoft(False, linha[9], linha[10]),
-                                DeveSerNoiteCheiaSoft(False, linha[11], linha[12])]
-            disciplina = Disciplina(i, self.cacheProfessores[linha[0]], linha[1], linha[2], linha[3], linha[4],
-                                    hard_constraints,
-                                    soft_constraints)  ## como la em cima ta setado as cols aqui tem q fazer tbm, bem meme
+                ##ADICIONA CONSTRAINT DA DSISCIPLNA NO PRFOESSOR QUE LECIONA
+                prof = self.cacheProfessores[linha[0]]
+                prof.addHardConstraints(hard_constraints)
 
-            ##ADICIONA CONSTRAINT DA DSISCIPLNA NO PRFOESSOR QUE LECIONA
-            prof = self.cacheProfessores[linha[0]]
-            prof.addHardConstraints(hard_constraints)
+                if (disciplina.fase == '1'):
+                    self.primeiraFase.append(disciplina)
+                if (disciplina.fase == '2'):
+                    self.segundaFase.append(disciplina)
+                if (disciplina.fase == '3'):
+                    self.terceiraFase.append(disciplina)
+                if (disciplina.fase == '4'):
+                    self.quartaFase.append(disciplina)
+                if (disciplina.fase == '5'):
+                    self.quintaFase.append(disciplina)
+                if (disciplina.fase == '6'):
+                    self.sextaFase.append(disciplina)
+                if (disciplina.fase == '7'):
+                    self.setimaFase.append(disciplina)
+                if (disciplina.fase == '8'):
+                    self.oitavaFase.append(disciplina)
 
-            if (disciplina.fase == '1'):
-                self.primeiraFase.append(disciplina)
-            if (disciplina.fase == '2'):
-                self.segundaFase.append(disciplina)
-            if (disciplina.fase == '3'):
-                self.terceiraFase.append(disciplina)
-            if (disciplina.fase == '4'):
-                self.quartaFase.append(disciplina)
-            if (disciplina.fase == '5'):
-                self.quintaFase.append(disciplina)
-            if (disciplina.fase == '6'):
-                self.sextaFase.append(disciplina)
-            if (disciplina.fase == '7'):
-                self.setimaFase.append(disciplina)
-            if (disciplina.fase == '8'):
-                self.oitavaFase.append(disciplina)
-
-            self.disciplinas.append(disciplina)
-            i += 1
+                self.disciplinas.append(disciplina)
+                i += 1
+        except:
+            print("ERRO DE PLANILHA")    
+            sys.exit(1)
 
 
 # for disciplina in primeiraFase:
@@ -530,7 +541,7 @@ def gerarComSoft(matriz, disciplinas):
             if matriz[i][j] is None:
                 matriz[i][j] = disciplina
                 alocadas += 1
-                disciplina.nome_disciplina = disciplina.nome_disciplina + " *********"
+                disciplina.nome_disciplina = disciplina.nome_disciplina + '!!!!!!'
                 conflitos += 1
                 if qntdAulas == alocadas:
                     disciplina.alocada = True
@@ -576,7 +587,7 @@ def gerarComSoft(matriz, disciplinas):
             if matriz[i][j] is None:
                 matriz[i][j] = disciplina
                 alocadas += 1
-                disciplina.nome_disciplina = disciplina.nome_disciplina + " *********"
+                disciplina.nome_disciplina = disciplina.nome_disciplina + '!!!!!!'
                 conflitos += 1
                 if qntdAulas == alocadas:
                     disciplina.alocada = True
@@ -592,15 +603,23 @@ def gerarComSoft(matriz, disciplinas):
         if dia[0] and dia[1] is not None:
             if dia[0] == dia[1]:
                 if dia[0].deveSerNoiteCheia == 'N' or dia[1].deveSerNoiteCheia == 'N':
-                    conflitos += 1
-                    if dia[0].deveSerNoiteCheia == 'N' and dia[1].deveSerNoiteCheia == 'N':
+                    if dia[0].deveSerNoiteCheia == 'N':
                         conflitos += 1
+                        dia[0].nome_disciplina = dia[0].nome_disciplina + "!!!"
+
+                    if dia[1].deveSerNoiteCheia == 'N':
+                        conflitos += 1
+                        dia[1].nome_disciplina = dia[1].nome_disciplina + "!!!"
+
 
             else:
                 if dia[0].deveSerNoiteCheia == 'S' or dia[1].deveSerNoiteCheia == 'S':
-                    conflitos += 1
-                    if dia[0].deveSerNoiteCheia == 'S' and dia[1].deveSerNoiteCheia == 'S':
+                    if dia[0].deveSerNoiteCheia == 'S' :
                         conflitos += 1
+                        dia[0].nome_disciplina = dia[0].nome_disciplina + "!!!"
+                    if dia[1].deveSerNoiteCheia == 'S':
+                        conflitos += 1
+                        dia[1].nome_disciplina = dia[1].nome_disciplina + "!!!"
 
             if dia[0] != dia[1]:
                 if ((dia[0].creditos_disciplina / 2) % 2 == 1 and dia[0].deveSerNoiteCheia == 'S') or (
@@ -608,16 +627,20 @@ def gerarComSoft(matriz, disciplinas):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
                             conflitos -= 1
+                            str(dia[0].nome_disciplina).replace('!', '');
                             break
                         elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1]:
                             conflitos -= 1
+                            str(dia[1].nome_disciplina).replace('!', '');
                             break
 
         elif dia[0] is None and dia[1] is not None:
             if dia[1].deveSerNoiteCheia == 'S':
                 conflitos += 1
+                dia[1].nome_disciplina = dia[1].nome_disciplina + "!!!"
         elif dia[0] is not None and dia[1] is None:
             if dia[0].deveSerNoiteCheia == 'S':
+                dia[0].nome_disciplina = dia[0].nome_disciplina + "!!!"
                 conflitos += 1
 
     # SOFT NOITE CHEIA
@@ -627,9 +650,11 @@ def gerarComSoft(matriz, disciplinas):
                 if dia[0].preferivelSerNoiteCheia == 'N' or dia[1].preferivelSerNoiteCheia == 'N':
                     if dia[0].pesoNoiteCheia is not None:
                         conflitos_soft += 1 * dia[0].pesoNoiteCheia
+                        dia[0].nome_disciplina = dia[0].nome_disciplina + "*"
 
                     if dia[1].pesoNoiteCheia is not  None:
                         conflitos_soft += 1 * dia[1].pesoNoiteCheia
+                        dia[1].nome_disciplina = dia[1].nome_disciplina + "*"
                     # if dia[0].preferivelSerNoiteCheia == 'N' and dia[1].preferivelSerNoiteCheia == 'N':
                     #     conflitos_soft += 1
 
@@ -637,8 +662,10 @@ def gerarComSoft(matriz, disciplinas):
                 if dia[0].preferivelSerNoiteCheia == 'S' or dia[1].preferivelSerNoiteCheia == 'S':
                     if dia[0].pesoNoiteCheia is not None:
                         conflitos_soft += 1 * dia[0].pesoNoiteCheia
+                        dia[0].nome_disciplina = dia[0].nome_disciplina + "*"
                     if dia[1].pesoNoiteCheia is not None:
                         conflitos_soft += 1 * dia[1].pesoNoiteCheia
+                        dia[1].nome_disciplina = dia[1].nome_disciplina + "*"
                     # if dia[0].preferivelSerNoiteCheia == 'S' and dia[1].preferivelSerNoiteCheia == 'S':
                     #     conflitos_soft += 1
 
@@ -648,16 +675,20 @@ def gerarComSoft(matriz, disciplinas):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0] and dia[0].preferivelSerNoiteCheia == 'S':
                             conflitos_soft -= 1 * dia[0].pesoNoiteCheia
+                            str(dia[0].nome_disciplina).replace('*', '');
                             break
                         elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1] and dia[1].preferivelSerNoiteCheia == 'S':
                             conflitos_soft -= 1 * dia[1].pesoNoiteCheia
+                            str(dia[1].nome_disciplina).replace('*', '');
                             break
 
         elif dia[0] is None and dia[1] is not None:
             if dia[1].preferivelSerNoiteCheia == 'S':
                 conflitos_soft += 1 * dia[1].pesoNoiteCheia
+                dia[1].nome_disciplina = dia[1].nome_disciplina + "*"
         elif dia[0] is not None and dia[1] is None:
             if dia[0].preferivelSerNoiteCheia == 'S':
                 conflitos_soft += 1 * dia[0].pesoNoiteCheia
+                dia[0].nome_disciplina = dia[0].nome_disciplina + "*"
 
     return conflitos, conflitos_soft

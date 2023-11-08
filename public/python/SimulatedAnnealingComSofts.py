@@ -10,7 +10,7 @@ import time
 import os
 
 class SimulatedAnnealing:
-    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.9998):
+    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.98):
         self.clean_data = clean_data
         self.data = deepcopy(clean_data)
         #self.original = deepcopy(grade)
@@ -27,7 +27,7 @@ class SimulatedAnnealing:
         counter = 0
 
         start_time = time.time()
-        while temp > self.min_temp:
+        while temp > self.min_temp and self.best_state.fitness() != 0:
             counter += 1
 
             if(self.best_state.softFitness() == 0 and self.best_state.fitness() == 0):
@@ -96,6 +96,7 @@ if __name__ == '__main__':
     clean_data = deepcopy(data)
     algorithm = SimulatedAnnealing(clean_data, 1, 100)
     solution = algorithm.run()
+    professores = solution.data.professores
 
     dfs = []
 
@@ -137,6 +138,17 @@ root_dir = os.path.dirname(
 
 writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao.xlsx')
 
+#writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
+workbook = writer.book
+
+hard_format = workbook.add_format({
+    'bg_color': '#FF0000',  # FFFF00
+})
+
+soft_format = workbook.add_format({
+    'bg_color': '#FFFF00',  # FFFF00
+})
+
 for index, df in enumerate(dfs):
     nomeSheet = 'Fase ' + str(index + 1)
     df.to_excel(writer, sheet_name = nomeSheet, index = False)
@@ -146,7 +158,86 @@ for index, df in enumerate(dfs):
         col_idx = df.columns.get_loc(column)
         writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
-writer.save()
+   
+    # worksheet = workbook.add_worksheet(nomeSheet)
+    worksheet = writer.sheets[nomeSheet]
 
-# df = pd.read_excel(root_dir + '/storage/app/public/solution/output.xlsx')
-# df.to_excel(root_dir + '/storage/app/public/solution/output.xls')
+    for indice, linha in df.iterrows():
+        for indice2, coluna in enumerate(df.columns):
+            valor = linha[coluna]
+            if isinstance(valor, str) and '!' in valor:
+                worksheet.write(indice + 1, indice2, valor, hard_format)
+            if isinstance(valor, str) and '*' in valor:
+                worksheet.write(indice + 1, indice2, valor, soft_format)
+
+writer.close()
+
+
+for professor in professores:
+    for dia in professor.horariosAlocados:  
+        if dia[0] is None:
+            dia[0] = ' '
+        elif dia[0] != 'NAO PODE DAR AULA':
+            dia[0] = dia[0].nome_disciplina
+
+        if dia[1] is None:
+            dia[1] = ' '
+        elif dia[0] != 'NAO PODE DAR AULA':
+            dia[1] = dia[1].nome_disciplina
+
+dfs = []
+
+for professor in professores:  
+        horarios = professor.horariosAlocados;
+        df = pd.DataFrame({
+                    'Inicio - Final': ['18:50 - 19:40', '19:40 - 20:30', '20:40 - 21:30', '21:30 - 22:20'],
+                    'Segunda-Feira:': [horarios[0][0], horarios[0][0], horarios[0][1], horarios[0][1]],
+                    'Terça-Feira:': [horarios[1][0], horarios[1][0], horarios[1][1], horarios[1][1]],
+                    'Quarta-Feira:': [horarios[2][0], horarios[2][0], horarios[2][1], horarios[2][1]],
+                    'Quinta-Feira:': [horarios[3][0], horarios[3][0], horarios[3][1], horarios[3][1]],
+                    'Sexta-Feira:': [horarios[4][0], horarios[4][0], horarios[4][1], horarios[4][1]],
+                    'Sábado:': [horarios[5][0], horarios[5][0], horarios[5][1], horarios[5][1]],
+            })
+        
+        dfs.append(df);
+
+root_dir = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
+)
+
+writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/professores.xlsx')
+
+
+for index, df in enumerate(dfs):
+    nomeSheet = 'Professor ' + str(index + 1)
+    df.to_excel(writer, sheet_name = nomeSheet, index = False)
+
+    for column in df:
+        column_length = max(df[column].astype(str).map(len).max(), len(column))
+        col_idx = df.columns.get_loc(column)
+        writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
+
+writer.close()
+
+
+
+def get_download_path():
+    if os.name == 'nt':
+        import winreg
+        sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+        downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+            location = winreg.QueryValueEx(key, downloads_guid)[0]
+        return location
+    else:
+        return os.path.join(os.path.expanduser('~'), 'Downloads')
+
+import shutil 
+
+shutil.copy(root_dir + '/storage/app/public/solution/professores.xlsx', get_download_path() + '/professores.xlsx')
+
+shutil.copy(root_dir + '/storage/app/public/solution/solucao.xlsx', get_download_path() + '/solucao.xlsx')

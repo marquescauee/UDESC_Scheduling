@@ -71,6 +71,7 @@ class Professor:
     def alocarHorario(self, i,j,disciplina):
         self.horariosAlocados[i][j] = disciplina
         if(self.preferivelNaoDarAula[i][j] is not None):
+            disciplina.nome_disciplina = disciplina.nome_disciplina + "*"
             return 1 * self.preferivelNaoDarAula[i][j]
         return 0
 
@@ -132,4 +133,4 @@ class Professor:
 
                         if dia == "SAB":
                             self.preferivelNaoDarAula[5][0] = "PREFERIVEL NAO DAR AULA"
-                            self.preferivelNaoDarAula[5][1] = "PREFERIVEL NAO DAR AULA"
+                            self.preferivelNaoDarAula[5][1] = "PREFERIVEL NAO DAR AULA" 
