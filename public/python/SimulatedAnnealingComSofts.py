@@ -146,7 +146,7 @@ hard_format = workbook.add_format({
 })
 
 soft_format = workbook.add_format({
-    'bg_color': '#FFFF00',  # FFFF00
+    'bg_color': '#00FFFF',  # FFFF00
 })
 
 for index, df in enumerate(dfs):
@@ -158,7 +158,7 @@ for index, df in enumerate(dfs):
         col_idx = df.columns.get_loc(column)
         writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
-   
+
     # worksheet = workbook.add_worksheet(nomeSheet)
     worksheet = writer.sheets[nomeSheet]
 
@@ -174,7 +174,7 @@ writer.close()
 
 
 for professor in professores:
-    for dia in professor.horariosAlocados:  
+    for dia in professor.horariosAlocados:
         if dia[0] is None:
             dia[0] = ' '
         elif dia[0] != 'NAO PODE DAR AULA':
@@ -187,7 +187,7 @@ for professor in professores:
 
 dfs = []
 
-for professor in professores:  
+for professor in professores:
         horarios = professor.horariosAlocados;
         df = pd.DataFrame({
                     'Inicio - Final': ['18:50 - 19:40', '19:40 - 20:30', '20:40 - 21:30', '21:30 - 22:20'],
@@ -198,7 +198,7 @@ for professor in professores:
                     'Sexta-Feira:': [horarios[4][0], horarios[4][0], horarios[4][1], horarios[4][1]],
                     'Sábado:': [horarios[5][0], horarios[5][0], horarios[5][1], horarios[5][1]],
             })
-        
+
         dfs.append(df);
 
 root_dir = os.path.dirname(
@@ -236,7 +236,7 @@ def get_download_path():
     else:
         return os.path.join(os.path.expanduser('~'), 'Downloads')
 
-import shutil 
+import shutil
 
 shutil.copy(root_dir + '/storage/app/public/solution/professores.xlsx', get_download_path() + '/professores.xlsx')
 
