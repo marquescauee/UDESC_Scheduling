@@ -10,7 +10,7 @@ import os
 import zipfile
 
 class SimulatedAnnealing:
-    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.9998):
+    def __init__(self, clean_data, min_temp, max_temp, cooling_rate):
         self.clean_data = clean_data
         self.data = deepcopy(clean_data)
         self.min_temp = min_temp
@@ -65,10 +65,7 @@ if __name__ == '__main__':
     data.read_professores()
     data.read_disciplinas()
     clean_data = deepcopy(data)
-    if float(sys.argv[3]) != 0:
-        algorithm = SimulatedAnnealing(clean_data, 1, 100, float(sys.argv[3]))
-    else:
-        algorithm = SimulatedAnnealing(clean_data, 1, 100)
+    algorithm = SimulatedAnnealing(clean_data, 1, 100, float(sys.argv[3]))
     solution = algorithm.run()
     professores = solution.data.professores
 

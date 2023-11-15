@@ -42,12 +42,13 @@ class MainController extends Controller
 
         $planilha_professores_name = $request['upload_professores']->getClientOriginalName();
         $planilha_disciplinas_name = $request['upload_disciplinas']->getClientOriginalName();
+        $cooling_rate = $request['cooling_rate'];
 
         File::put(base_path() . '/public/python/planilhas/'. $planilha_professores_name, File::get($request->file('upload_professores')));
 
         File::put(base_path() . '/public/python/planilhas/'. $planilha_disciplinas_name, File::get($request->file('upload_disciplinas')));
 
-        $command = "python " . public_path() . "/python/SimulatedAnnealing.py 2>&1 $planilha_professores_name $planilha_disciplinas_name";
+        $command = "python " . public_path() . "/python/SimulatedAnnealing.py 2>&1 $planilha_professores_name $planilha_disciplinas_name $cooling_rate";
 
         ini_set('max_execution_time', 3600);
         ini_set('max_input_time', -1);

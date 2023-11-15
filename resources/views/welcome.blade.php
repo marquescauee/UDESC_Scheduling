@@ -44,6 +44,11 @@
                         name="upload_professores" />
                 </div>
 
+                <div class="cooling-rate-container">
+                    <label for="cooling_rate">Defina a taxa de resfriamento:</label>
+                    <input type="number" required name="cooling_rate" id="cooling_rate" min="0.9800" value="0.9998" step=".0001">
+                </div>
+
                 <div class="image-upload">
                     <label for="file-input-upload-disciplinas">
                         <img src="{{ asset('img/upload_icon.png') }}" alt="ícone de upload" />
@@ -53,7 +58,6 @@
                         name="upload_disciplinas"/>
                 </div>
             </div>
-
 
             <div class="container-start-and-download">
                 <button type="submit" id="btn-start-matriz-curricular">

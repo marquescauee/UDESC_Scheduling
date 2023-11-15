@@ -66,6 +66,7 @@ $("#btn-start-matriz-curricular").click(function (e) {
 function handleSubmit() {
     let upload_professores;
     let upload_disciplinas;
+    let cooling_rate = 0.9998;
 
     $(document).ready(function () {
 
@@ -75,6 +76,10 @@ function handleSubmit() {
 
         $('#file-input-upload-disciplinas').change(function (e) {
             upload_disciplinas = $('#file-input-upload-disciplinas')[0].files[0];
+        });
+
+        $('#cooling_rate').change(function (e) {
+            cooling_rate = $('#cooling_rate').val()
         });
 
         $("#form-start-matriz-curricular").on('submit', function () {
@@ -91,6 +96,7 @@ function handleSubmit() {
             const formData = new FormData();
             formData.append('upload_professores', upload_professores)
             formData.append('upload_disciplinas', upload_disciplinas)
+            formData.append('cooling_rate', cooling_rate)
 
             $.ajax({
                 data: formData,
@@ -131,6 +137,10 @@ $(".btn-download-final-answer").click(function (e) {
         $(".pop-up-success").hide()
     }
 })
+
+$("[type='number']").keypress(function (evt) {
+    evt.preventDefault();
+});
 
 hidePopUpError()
 handleSubmit()
