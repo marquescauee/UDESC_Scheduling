@@ -17,7 +17,7 @@
 
     <div class="div-success">
         <p class="title-success">Grade gerada com sucesso!</p>
-        <p class="description-success">A grade foi gerada com sucesso e foi exportada para sua pasta Downloads!</p>
+        <p class="description-success">A grade foi gerada com sucesso e exportada para sua pasta Downloads!</p>
 
         <div class="footer-success">
             <p>Verifique sua pasta de downloads. Caso o download não tenha sido realizado, clique no botão ao lado.</p>

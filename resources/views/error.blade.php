@@ -17,7 +17,7 @@
 
     <div class="div-error">
         <p class="title-error">Não foi possível gerar a matriz curricular</p>
-        <p class="description-error">Existem muitas Hards Constraints que não foram possíveis de serem cumpridas. Por favor, tente gerar novamente ou considere diminuir o numero de Hards Constraints.</p>
+        <p class="description-error">Há uma ou mais Hard Constraints que não foram cumpridas. Por favor, tente gerar novamente ou considere diminuir o número de Hard Constraints.</p>
 
         <div class="footer-error">
             <p>Caso queira analisar quais Hard Constraints e/ou Soft Constraints não foram cumpridas, baixe o arquivo com a solução parcial.</p>
