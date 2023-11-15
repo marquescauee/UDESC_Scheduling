@@ -1,7 +1,8 @@
 import numpy as np
 from copy import deepcopy
 from random import random
-from readXls import ReadData, SingleSolutionSofts
+from readXls import ReadData
+from grade import SingleSolution
 import pandas as pd
 import os
 import zipfile
@@ -13,7 +14,7 @@ class SimulatedAnnealing:
         self.min_temp = min_temp
         self.max_temp = max_temp
         self.cooling_rate = cooling_rate
-        self.actual_state = SingleSolutionSofts(data)
+        self.actual_state = SingleSolution(data)
         self.best_state = self.actual_state
         self.next_state = None
 
@@ -23,11 +24,11 @@ class SimulatedAnnealing:
 
         while temp > self.min_temp:
 
-            if(self.best_state.softFitness() == 0 and self.best_state.fitness() == 0):
+            if self.best_state.softFitness() == 0 and self.best_state.fitness() == 0:
                 break
 
             new_data = deepcopy(clean_data)
-            new_state = SingleSolutionSofts(new_data)
+            new_state = SingleSolution(new_data)
             new_state.generate_solution()
 
             actual_energy = self.actual_state.fitness()
@@ -169,7 +170,7 @@ for professor in professores:
                     'Sábado:': [horarios[5][0], horarios[5][0], horarios[5][1], horarios[5][1]],
             })
 
-        dfs.append(df);
+        dfs.append(df)
 
 root_dir = os.path.dirname(
     os.path.dirname(

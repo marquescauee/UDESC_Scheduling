@@ -4,7 +4,8 @@ from random import randint
 from random import shuffle
 from random import random
 from random import sample
-from readXls import ReadData, SingleSolutionSofts
+from readXls import ReadData
+from grade import SingleSolution
 import pandas as pd
 import time
 import os
@@ -17,7 +18,7 @@ class SimulatedAnnealing:
         self.min_temp = min_temp
         self.max_temp = max_temp
         self.cooling_rate = cooling_rate
-        self.actual_state = SingleSolutionSofts(data)
+        self.actual_state = SingleSolution(data)
         self.best_state = self.actual_state
         self.next_state = None
 
@@ -38,7 +39,7 @@ class SimulatedAnnealing:
 
             #new_state = self.actual_state
             new_data = deepcopy(clean_data)
-            new_state = SingleSolutionSofts(new_data)
+            new_state = SingleSolution(new_data)
             new_state.generate_solution()
 
             actual_energy = self.actual_state.fitness()
@@ -128,121 +129,120 @@ if __name__ == '__main__':
 
         dfs.append(df)
 
-root_dir = os.path.dirname(
-    os.path.dirname(
+    root_dir = os.path.dirname(
         os.path.dirname(
-            os.path.abspath(__file__)
+            os.path.dirname(
+                os.path.abspath(__file__)
+            )
         )
     )
-)
 
-writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx')
+    writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx')
 
-#writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
-workbook = writer.book
+    #writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
+    workbook = writer.book
 
-hard_format = workbook.add_format({
-    'bg_color': '#FF0000',  # FFFF00
-})
+    hard_format = workbook.add_format({
+        'bg_color': '#FF0000',  # FFFF00
+    })
 
-soft_format = workbook.add_format({
-    'bg_color': '#00FFFF',  # FFFF00
-})
+    soft_format = workbook.add_format({
+        'bg_color': '#00FFFF',  # FFFF00
+    })
 
-for index, df in enumerate(dfs):
-    nomeSheet = 'Fase ' + str(index + 1)
-    df.to_excel(writer, sheet_name = nomeSheet, index = False)
+    for index, df in enumerate(dfs):
+        nomeSheet = 'Fase ' + str(index + 1)
+        df.to_excel(writer, sheet_name = nomeSheet, index = False)
 
-    for column in df:
-        column_length = max(df[column].astype(str).map(len).max(), len(column))
-        col_idx = df.columns.get_loc(column)
-        writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
-
-
-    # worksheet = workbook.add_worksheet(nomeSheet)
-    worksheet = writer.sheets[nomeSheet]
-
-    for indice, linha in df.iterrows():
-        for indice2, coluna in enumerate(df.columns):
-            valor = linha[coluna]
-            if isinstance(valor, str) and '!' in valor:
-                worksheet.write(indice + 1, indice2, valor, hard_format)
-            if isinstance(valor, str) and '*' in valor:
-                worksheet.write(indice + 1, indice2, valor, soft_format)
-
-writer.close()
+        for column in df:
+            column_length = max(df[column].astype(str).map(len).max(), len(column))
+            col_idx = df.columns.get_loc(column)
+            writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
 
-for professor in professores:
-    for dia in professor.horariosAlocados:
-        if dia[0] is None:
-            dia[0] = ' '
-        elif dia[0] != 'NAO PODE DAR AULA':
-            dia[0] = dia[0].nome_disciplina
+        # worksheet = workbook.add_worksheet(nomeSheet)
+        worksheet = writer.sheets[nomeSheet]
 
-        if dia[1] is None:
-            dia[1] = ' '
-        elif dia[0] != 'NAO PODE DAR AULA':
-            dia[1] = dia[1].nome_disciplina
+        for indice, linha in df.iterrows():
+            for indice2, coluna in enumerate(df.columns):
+                valor = linha[coluna]
+                if isinstance(valor, str) and '!' in valor:
+                    worksheet.write(indice + 1, indice2, valor, hard_format)
+                if isinstance(valor, str) and '*' in valor:
+                    worksheet.write(indice + 1, indice2, valor, soft_format)
 
-dfs = []
+    writer.close()
 
-for professor in professores:
-        horarios = professor.horariosAlocados;
-        df = pd.DataFrame({
-                    'Inicio - Final': ['18:50 - 19:40', '19:40 - 20:30', '20:40 - 21:30', '21:30 - 22:20'],
-                    'Segunda-Feira:': [horarios[0][0], horarios[0][0], horarios[0][1], horarios[0][1]],
-                    'Terça-Feira:': [horarios[1][0], horarios[1][0], horarios[1][1], horarios[1][1]],
-                    'Quarta-Feira:': [horarios[2][0], horarios[2][0], horarios[2][1], horarios[2][1]],
-                    'Quinta-Feira:': [horarios[3][0], horarios[3][0], horarios[3][1], horarios[3][1]],
-                    'Sexta-Feira:': [horarios[4][0], horarios[4][0], horarios[4][1], horarios[4][1]],
-                    'Sábado:': [horarios[5][0], horarios[5][0], horarios[5][1], horarios[5][1]],
-            })
 
-        dfs.append(df);
+    for professor in professores:
+        for dia in professor.horariosAlocados:
+            if dia[0] is None:
+                dia[0] = ' '
+            elif dia[0] != 'NAO PODE DAR AULA':
+                dia[0] = dia[0].nome_disciplina
 
-root_dir = os.path.dirname(
-    os.path.dirname(
+            if dia[1] is None:
+                dia[1] = ' '
+            elif dia[0] != 'NAO PODE DAR AULA':
+                dia[1] = dia[1].nome_disciplina
+
+    dfs = []
+
+    for professor in professores:
+            horarios = professor.horariosAlocados;
+            df = pd.DataFrame({
+                        'Inicio - Final': ['18:50 - 19:40', '19:40 - 20:30', '20:40 - 21:30', '21:30 - 22:20'],
+                        'Segunda-Feira:': [horarios[0][0], horarios[0][0], horarios[0][1], horarios[0][1]],
+                        'Terça-Feira:': [horarios[1][0], horarios[1][0], horarios[1][1], horarios[1][1]],
+                        'Quarta-Feira:': [horarios[2][0], horarios[2][0], horarios[2][1], horarios[2][1]],
+                        'Quinta-Feira:': [horarios[3][0], horarios[3][0], horarios[3][1], horarios[3][1]],
+                        'Sexta-Feira:': [horarios[4][0], horarios[4][0], horarios[4][1], horarios[4][1]],
+                        'Sábado:': [horarios[5][0], horarios[5][0], horarios[5][1], horarios[5][1]],
+                })
+
+            dfs.append(df);
+
+    root_dir = os.path.dirname(
         os.path.dirname(
-            os.path.abspath(__file__)
+            os.path.dirname(
+                os.path.abspath(__file__)
+            )
         )
     )
-)
 
-writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_professores.xlsx')
-
-
-for index, df in enumerate(dfs):
-    nomeSheet = 'Professor ' + str(index + 1)
-    df.to_excel(writer, sheet_name = nomeSheet, index = False)
-
-    for column in df:
-        column_length = max(df[column].astype(str).map(len).max(), len(column))
-        col_idx = df.columns.get_loc(column)
-        writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
-
-writer.close()
+    writer = pd.ExcelWriter(root_dir + '/storage/app/public/solution/solucao_professores.xlsx')
 
 
+    for index, df in enumerate(dfs):
+        nomeSheet = 'Professor ' + str(index + 1)
+        df.to_excel(writer, sheet_name = nomeSheet, index = False)
 
-def get_download_path():
-    if os.name == 'nt':
-        import winreg
-        sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
-        downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
-            location = winreg.QueryValueEx(key, downloads_guid)[0]
-        return location
-    else:
-        return os.path.join(os.path.expanduser('~'), 'Downloads')
+        for column in df:
+            column_length = max(df[column].astype(str).map(len).max(), len(column))
+            col_idx = df.columns.get_loc(column)
+            writer.sheets[nomeSheet].set_column(col_idx, col_idx, column_length)
 
-import shutil
-import zipfile
+    writer.close()
 
-solucao_professores = root_dir + '/storage/app/public/solution/solucao_professores.xlsx'
-solucao_disciplinas = root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx'
 
-zip = zipfile.ZipFile(get_download_path() + "/solucao.zip", "w", zipfile.ZIP_DEFLATED)
-zip.write(solucao_professores, 'solucao_professores.xlsx')
-zip.write(solucao_disciplinas, 'solucao_disciplinas.xlsx')
-zip.close()
+
+    def get_download_path():
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
+
+    import zipfile
+
+    solucao_professores = root_dir + '/storage/app/public/solution/solucao_professores.xlsx'
+    solucao_disciplinas = root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx'
+
+    zip = zipfile.ZipFile(get_download_path() + "/solucao.zip", "w", zipfile.ZIP_DEFLATED)
+    zip.write(solucao_professores, 'solucao_professores.xlsx')
+    zip.write(solucao_disciplinas, 'solucao_disciplinas.xlsx')
+    zip.close()
