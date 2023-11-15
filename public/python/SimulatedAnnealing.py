@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 from copy import deepcopy
 from random import random
@@ -63,7 +65,10 @@ if __name__ == '__main__':
     data.read_professores()
     data.read_disciplinas()
     clean_data = deepcopy(data)
-    algorithm = SimulatedAnnealing(clean_data, 1, 100)
+    if float(sys.argv[3]) != 0:
+        algorithm = SimulatedAnnealing(clean_data, 1, 100, float(sys.argv[3]))
+    else:
+        algorithm = SimulatedAnnealing(clean_data, 1, 100)
     solution = algorithm.run()
     professores = solution.data.professores
 

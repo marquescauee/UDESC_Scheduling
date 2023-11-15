@@ -11,7 +11,7 @@ import time
 import os
 
 class SimulatedAnnealing:
-    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.98):
+    def __init__(self, clean_data, min_temp, max_temp, cooling_rate=0.9998):
         self.clean_data = clean_data
         self.data = deepcopy(clean_data)
         #self.original = deepcopy(grade)
@@ -242,7 +242,7 @@ if __name__ == '__main__':
     solucao_professores = root_dir + '/storage/app/public/solution/solucao_professores.xlsx'
     solucao_disciplinas = root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx'
 
-    zip = zipfile.ZipFile(get_download_path() + "/solucao.zip", "w", zipfile.ZIP_DEFLATED)
+    zip = zipfile.ZipFile(get_download_path() + "/solucao_matriz.zip", "w", zipfile.ZIP_DEFLATED)
     zip.write(solucao_professores, 'solucao_professores.xlsx')
     zip.write(solucao_disciplinas, 'solucao_disciplinas.xlsx')
     zip.close()
