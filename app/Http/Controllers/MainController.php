@@ -25,12 +25,12 @@ class MainController extends Controller
     public function downloadSolution()
     {
 
-        $zip = Zip::create('solucao.zip');
+        $zip = Zip::create('solucao_matriz.zip');
         $zip->add(base_path() . '/storage/app/public/solution', true);
 
         $zip->close();
 
-        return Response::download(public_path('solucao.zip'));
+        return Response::download(public_path('solucao_matriz.zip'));
 
     }
 

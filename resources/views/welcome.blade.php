@@ -62,7 +62,7 @@
                     <img src="{{ asset('img/plus_circle_icon.png') }}" alt="Ícone de adição">
                 </button>
                 @if (
-                    !Storage::disk('solution')->exists('solucao.xlsx'))
+                    !Storage::disk('solution')->exists('solucao_disciplinas.xlsx'))
                     <button class="btn-download-final-answer disabled" style="opacity: 0.5; cursor:default">
                         <img src="{{ asset('img/download_answer.png') }}" alt="Donwload Answer">
                     </button>
