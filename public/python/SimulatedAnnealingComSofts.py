@@ -242,7 +242,7 @@ import zipfile
 solucao_professores = root_dir + '/storage/app/public/solution/solucao_professores.xlsx'
 solucao_disciplinas = root_dir + '/storage/app/public/solution/solucao_disciplinas.xlsx'
 
-zip = zipfile.ZipFile(get_download_path() + "/stuff.zip", "w", zipfile.ZIP_DEFLATED)
+zip = zipfile.ZipFile(get_download_path() + "/solucao.zip", "w", zipfile.ZIP_DEFLATED)
 zip.write(solucao_professores, 'solucao_professores.xlsx')
 zip.write(solucao_disciplinas, 'solucao_disciplinas.xlsx')
 zip.close()

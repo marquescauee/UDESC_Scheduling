@@ -3,12 +3,15 @@ from constraints import DiasNaoMinistradasHard, DiasNaoMinistradasSoft
 
 class Professor:
     def __init__(self, id, nome_chave, nome_completo, diasNaoMinistradosHard, diasNaoMinistradosSoft):
-        self.horariosAlocados = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
-        self.preferivelNaoDarAula = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
-
         self.id = id
         self.nome_chave = nome_chave
         self.nome_completo = nome_completo
+        self.diasNaoMinistradosHard = diasNaoMinistradosHard
+        self.diasNaoMinistradosSoft = diasNaoMinistradosSoft
+
+        self.horariosAlocados = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        self.preferivelNaoDarAula = [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+
         if(diasNaoMinistradosHard.getDiasNaoMinistradas() is not None):
             diasTexto = diasNaoMinistradosHard.getDiasNaoMinistradas().split(';')
             for dia in diasTexto:
@@ -27,7 +30,7 @@ class Professor:
                 if dia == "QUI":
                     self.horariosAlocados[3][0] = "NAO PODE DAR AULA"
                     self.horariosAlocados[3][1] = "NAO PODE DAR AULA"
-            
+
                 if dia == "SEX":
                     self.horariosAlocados[4][0] = "NAO PODE DAR AULA"
                     self.horariosAlocados[4][1] = "NAO PODE DAR AULA"
@@ -63,9 +66,6 @@ class Professor:
                     self.preferivelNaoDarAula[5][0] = diasNaoMinistradosSoft.getPeso()
                     self.preferivelNaoDarAula[5][1] = diasNaoMinistradosSoft.getPeso()
 
-
-        self.diasNaoMinistradosHard = diasNaoMinistradosHard
-        self.diasNaoMinistradosSoft = diasNaoMinistradosSoft
 
     #ALOCA A DISCILINA NO HORARIO E RETORNA UMA VIOLACAO SOFT CASO SEJA PREFERIVEL NAO DAR AULA NAQUELA HORARIO
     def alocarHorario(self, i,j,disciplina):
@@ -133,4 +133,4 @@ class Professor:
 
                         if dia == "SAB":
                             self.preferivelNaoDarAula[5][0] = "PREFERIVEL NAO DAR AULA"
-                            self.preferivelNaoDarAula[5][1] = "PREFERIVEL NAO DAR AULA" 
+                            self.preferivelNaoDarAula[5][1] = "PREFERIVEL NAO DAR AULA"

@@ -29,8 +29,8 @@ class ReadData:
 
     def read_professores(self):
         try:
-            #df = pd.read_excel("planilhas/professores.xls", header=None, usecols=[0, 1, 3, 5, 6])
-            df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
+            df = pd.read_excel("planilhas/professores.xls", header=None, usecols=[0, 1, 3, 5, 6])
+            #df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[1], header=None, usecols=[0,1,3,5,6])
 
             df = df.replace(np.nan, None)
             # Pega os dados com um dicionario
@@ -69,9 +69,8 @@ class ReadData:
 
     def read_disciplinas(self):
         try:
-            #df = pd.read_excel("planilhas/disciplinas.xls", header=None, usecols=[0, 1, 2, 3, 4, 6, 7, 9, 10, 11, 12])  ##descobrir uma mehlor forma de nao pegar as coisas vazias
-
-            df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
+            df = pd.read_excel("planilhas/disciplinas.xls", header=None, usecols=[0, 1, 2, 3, 4, 6, 7, 9, 10, 11, 12])  ##descobrir uma mehlor forma de nao pegar as coisas vazias
+            #df = pd.read_excel(os.getcwd()+ "/python/planilhas/" + sys.argv[2], header=None, usecols=[0,1,2,3,4,6,7,9,10,11,12]) ##descobrir uma mehlor forma de nao pegar as coisas vazias
             df = df.replace(np.nan, None)
 
             data = df.to_dict(orient='records')
@@ -627,11 +626,11 @@ def gerarComSoft(matriz, disciplinas):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0]:
                             conflitos -= 1
-                            str(dia[0].nome_disciplina).replace('!', '');
+                            dia[0].nome_disciplina = str(dia[0].nome_disciplina).replace('!', '')
                             break
                         elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1]:
                             conflitos -= 1
-                            str(dia[1].nome_disciplina).replace('!', '');
+                            dia[1].nome_disciplina = str(dia[1].nome_disciplina).replace('!', '');
                             break
 
         elif dia[0] is None and dia[1] is not None:
@@ -675,11 +674,11 @@ def gerarComSoft(matriz, disciplinas):
                     for isDiaCheio in matriz:
                         if isDiaCheio[0] == dia[0] and isDiaCheio[1] == dia[0] and dia[0].preferivelSerNoiteCheia == 'S':
                             conflitos_soft -= 1 * dia[0].pesoNoiteCheia
-                            str(dia[0].nome_disciplina).replace('*', '');
+                            dia[0].nome_disciplina = str(dia[0].nome_disciplina).replace('*', '');
                             break
                         elif isDiaCheio[0] == dia[1] and isDiaCheio[1] == dia[1] and dia[1].preferivelSerNoiteCheia == 'S':
                             conflitos_soft -= 1 * dia[1].pesoNoiteCheia
-                            str(dia[1].nome_disciplina).replace('*', '');
+                            dia[1].nome_disciplina = str(dia[1].nome_disciplina).replace('*', '');
                             break
 
         elif dia[0] is None and dia[1] is not None:
