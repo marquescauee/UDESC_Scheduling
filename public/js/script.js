@@ -4,6 +4,14 @@ $(".js-file-upload-professores").on("change", function (e) {
         return
     }
 
+    upload_professores = $('#file-input-upload-professores')[0].files[0];
+    if (upload_professores.name.split('.')[1] != 'xls' && upload_professores.name.split('.')[1] != 'xlsx') {
+        $(".pop-up-error").show('slow')
+        $(".error-message").text('Formato de arquivo inválido. Por favor, insira uma planilha .xls ou .xlsx')
+        hidePopUpError()
+        return
+    }
+
     $(".pop-up-success").show('slow')
 
     if ($(".pop-up-error")) {
@@ -17,6 +25,14 @@ $(".js-file-upload-professores").on("change", function (e) {
 
 $(".js-file-upload-disciplinas").on("change", function (e) {
     if ($(".js-file-upload-disciplinas").get(0).files.length === 0) {
+        return
+    }
+
+    upload_disciplinas = $('#file-input-upload-disciplinas')[0].files[0];
+    if (upload_disciplinas.name.split('.')[1] != 'xls' && upload_disciplinas.name.split('.')[1] != 'xlsx') {
+        $(".pop-up-error").show('slow')
+        $(".error-message").text('Formato de arquivo inválido. Por favor, insira uma planilha .xls ou .xlsx')
+        hidePopUpError()
         return
     }
 
@@ -82,7 +98,24 @@ function handleSubmit() {
             cooling_rate = $('#cooling_rate').val()
         });
 
-        $("#form-start-matriz-curricular").on('submit', function () {
+        $("#form-start-matriz-curricular").on('submit', function (e) {
+
+            if (upload_disciplinas.name.split('.')[1] != 'xls' && upload_disciplinas.name.split('.')[1] != 'xlsx') {
+                e.preventDefault()
+                $(".pop-up-error").show('slow')
+                $(".error-message").text('Formato de arquivo inválido. Por favor, insira uma planilha .xls ou .xlsx')
+                hidePopUpError()
+                return
+            }
+
+            if (upload_professores.name.split('.')[1] != 'xls' && upload_professores.name.split('.')[1] != 'xlsx') {
+                e.preventDefault()
+                $(".pop-up-error").show('slow')
+                $(".error-message").text('Formato de arquivo inválido. Por favor, insira uma planilha .xls ou .xlsx')
+                hidePopUpError()
+                return
+            }
+
             $(".main-div").empty()
             $(".main-div").append('<div class="loading-div"><p class="paragraph-generating">Gerando Matriz. Isso pode demorar um pouco...</p><span class="loader"></span></div>')
 
